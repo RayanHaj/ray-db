@@ -350,6 +350,8 @@ export function indexedDbWrapper(
                         request.onerror = () => {
                             reject(request.error);
                         }
+
+                        return;
                     }
                     cursor.continue();
                 } else {
