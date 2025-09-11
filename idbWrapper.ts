@@ -8,6 +8,7 @@ import type {
 import type {OnUpgradeActions} from './types/ActionsOnUpgrade';
 import type {OnSuccessActions} from './types/ActionsOnSuccess';
 import {DeepPartial} from "./types/DeepPartial";
+import {deepMerge} from "./utility/deepMerge";
 
 export function indexedDbWrapper(
     name: string,
@@ -340,8 +341,8 @@ export function indexedDbWrapper(
                 if (cursor) {
                     const item = cursor.value as T;
                     if (query(item)) {
-                        const updatedItem = element(item);
-                        const newItem = { ...item, ...updatedItem };
+                        const updatedItem = structuredClone(element(item));
+                        const newItem = deepMerge(item, updatedItem);
                         const request = cursor.update(newItem);
                         request.onsuccess = () => {
                             resolve(request.result);
@@ -355,7 +356,7 @@ export function indexedDbWrapper(
                     resolve(null);
                 }
             }
-            request.onerror = () => reject(request.error);
+            cursor.onerror = () => reject(cursor.error);
         });
     }
 }
