@@ -1,6 +1,6 @@
 {
   "name": "ray-db-wrapper",
-  "version": "0.0.95",
+  "version": "0.0.98",
   "description": "A lightweight indexeddb wrapper for easier use and simple use cases.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
