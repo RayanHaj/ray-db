@@ -328,7 +328,7 @@ export function indexedDbWrapper(
     function _updateOneQuery<T>(
         db: IDBDatabase,
         storeName: string,
-        element: DeepPartial<T>,
+        element: (item: T) => DeepPartial<T>,
         query: (item: T) => boolean
     ): Promise<IDBValidKey | null> {
         return new Promise((resolve, reject) => {
@@ -340,7 +340,8 @@ export function indexedDbWrapper(
                 if (cursor) {
                     const item = cursor.value as T;
                     if (query(item)) {
-                        const newItem = { ...item, ...element };
+                        const updatedItem = element(item);
+                        const newItem = { ...item, ...updatedItem };
                         const request = cursor.update(newItem);
                         request.onsuccess = () => {
                             resolve(request.result);
