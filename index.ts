@@ -142,7 +142,7 @@ export class RayDb {
         return this._updateOne(storeName, element);
     }
 
-    public async updateOneQuery<T extends object>(storeName: string, element: T, query: (item: T) => boolean) {
+    public async updateOneQuery<T extends object>(storeName: string, element: Partial<T>, query: (item: T) => boolean) {
         return this._updateOneQuery(storeName, element, query);
     }
 

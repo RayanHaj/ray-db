@@ -13,4 +13,4 @@ export type DeleteMany = (storeName: string, elements: IDBValidKey[], options?: 
     Promise<void>
 export type UpdateOne = <T>(storeName: string, element: T) =>
     Promise<IDBValidKey | null>;
-export type UpdateOneQuery = <T>(storeName: string, element: T, query: (item: T) => boolean) => Promise<IDBValidKey | null>;
+export type UpdateOneQuery = <T>(storeName: string, element: Partial<T>, query: (item: T) => boolean) => Promise<IDBValidKey | null>;
