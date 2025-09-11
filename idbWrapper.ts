@@ -342,7 +342,7 @@ export function indexedDbWrapper(
                     const item = cursor.value as T;
                     if (query(item)) {
                         const updatedItem = element(item);
-                        const newItem = deepMerge(item, updatedItem);
+                        const newItem = deepMerge(structuredClone(item), updatedItem);
                         const request = cursor.update(newItem);
                         request.onsuccess = () => {
                             resolve(request.result);

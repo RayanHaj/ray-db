@@ -10,7 +10,7 @@ export function deepMerge(target: any, ...sources: any[]): any {
         for (const key in source) {
             if (isObject(source[key])) {
                 if (!target[key]) Object.assign(target, { [key]: {}});
-                deepMerge(target[key], source[key]);
+                target[key] = deepMerge(target[key], source[key]);
             } else {
                 Object.assign(target, { [key]: source[key] })
             }
