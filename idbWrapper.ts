@@ -327,7 +327,7 @@ export function indexedDbWrapper(
     function _updateOneQuery<T>(
         db: IDBDatabase,
         storeName: string,
-        element: T,
+        element: Partial<T>,
         query: (item: T) => boolean
     ): Promise<IDBValidKey | null> {
         return new Promise((resolve, reject) => {
