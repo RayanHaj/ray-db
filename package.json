@@ -1,0 +1,27 @@
+{
+  "name": "ray-db-wrapper",
+  "version": "0.0.1",
+  "description": "A lightweight indexeddb wrapper for easier use and simple use cases.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsup index.ts --format cjs,esm --dts",
+    "test": "jest"
+  },
+  "author": "Rayan el Hajaoui",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@swc/core": "^1.11.24",
+    "@types/jest": "^29.5.14",
+    "fake-indexeddb": "^6.0.1",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.3.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  }
+}
