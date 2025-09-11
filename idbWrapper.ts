@@ -7,6 +7,7 @@ import type {
 } from './types/crudTypes';
 import type {OnUpgradeActions} from './types/ActionsOnUpgrade';
 import type {OnSuccessActions} from './types/ActionsOnSuccess';
+import {DeepPartial} from "./types/DeepPartial";
 
 export function indexedDbWrapper(
     name: string,
@@ -327,7 +328,7 @@ export function indexedDbWrapper(
     function _updateOneQuery<T>(
         db: IDBDatabase,
         storeName: string,
-        element: Partial<T>,
+        element: DeepPartial<T>,
         query: (item: T) => boolean
     ): Promise<IDBValidKey | null> {
         return new Promise((resolve, reject) => {
