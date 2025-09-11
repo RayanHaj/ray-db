@@ -165,7 +165,6 @@ describe('IndexedDB wrapper tests', () => {
                 }
             }
         }
-
         return id;
     }
 
