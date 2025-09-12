@@ -6,7 +6,7 @@ import type {
     FindOne,
     InsertMany,
     InsertOne,
-    UpdateOne, UpdateOneQuery
+    UpdateOne, UpdateManyByQuery
 } from "./types/crudTypes";
 import type {ObjectStoreIndex} from "./types/ObjectStoreIndex";
 import type {ObjectStore} from "./types/ObjectStore";
@@ -22,7 +22,7 @@ export class RayDb {
     private _deleteOne!: DeleteOne;
     private _deleteMany!: DeleteMany;
     private _updateOne!: UpdateOne;
-    private _updateOneQuery!: UpdateOneQuery
+    private _updateManyByQuery!: UpdateManyByQuery
 
     private _createObjectStore!: (
         name: string,
@@ -70,7 +70,7 @@ export class RayDb {
                     deleteOne,
                     deleteMany,
                     updateOne,
-                    updateOneQuery
+                    updateManyByQuery
                 }) => {
                     this._db = db;
                     this._findOne = findOne;
@@ -81,7 +81,7 @@ export class RayDb {
                     this._findAll = findAll;
                     this._insertMany = insertMany;
                     this._updateOne = updateOne;
-                    this._updateOneQuery = updateOneQuery;
+                    this._updateManyByQuery = updateManyByQuery;
                     resolve();
                 },
                 onError: (error) => {
@@ -143,8 +143,8 @@ export class RayDb {
         return this._updateOne(storeName, element);
     }
 
-    public async updateOneQuery<T extends object>(storeName: string, element: (item: T) => DeepPartial<T>, query: (item: T) => boolean) {
-        return this._updateOneQuery(storeName, element, query);
+    public async updateManyByQuery<T extends object>(storeName: string, element: (item: T) => DeepPartial<T>, query: (item: T) => boolean) {
+        return this._updateManyByQuery(storeName, element, query);
     }
 
     public db() {

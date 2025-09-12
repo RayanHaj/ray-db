@@ -7,7 +7,7 @@ import {
   FindMany,
   DeleteMany,
   UpdateOne,
-  UpdateOneQuery
+  UpdateManyByQuery
 } from './crudTypes';
 
 export interface OnSuccessActions {
@@ -19,5 +19,5 @@ export interface OnSuccessActions {
   deleteOne: DeleteOne;
   deleteMany: DeleteMany;
   updateOne: UpdateOne;
-  updateOneQuery: UpdateOneQuery
+  updateManyByQuery: UpdateManyByQuery
 }

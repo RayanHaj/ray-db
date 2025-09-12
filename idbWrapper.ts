@@ -3,7 +3,7 @@ import type {
     InsertOne,
     DeleteOne,
     FindAll,
-    FindOne, InsertMany, FindMany, DeleteMany, UpdateOne, UpdateOneQuery,
+    FindOne, InsertMany, FindMany, DeleteMany, UpdateOne, UpdateManyByQuery,
 } from './types/crudTypes';
 import type {OnUpgradeActions} from './types/ActionsOnUpgrade';
 import type {OnSuccessActions} from './types/ActionsOnSuccess';
@@ -42,7 +42,7 @@ export function indexedDbWrapper(
         const deleteOne = _deleteOne.bind(null, db);
         const deleteMany = _deleteMany.bind(null, db);
         const updateOne = _updateOne.bind(null, db);
-        const updateOneQuery = _updateOneQuery.bind(null, db);
+        const updateManyByQuery = _updateManyByQuery.bind(null, db);
 
         onSuccess?.(db, {
             insertOne: insertOne as InsertOne,
@@ -53,7 +53,7 @@ export function indexedDbWrapper(
             deleteOne: deleteOne as DeleteOne,
             deleteMany: deleteMany as DeleteMany,
             updateOne: updateOne as UpdateOne,
-            updateOneQuery: updateOneQuery as UpdateOneQuery
+            updateManyByQuery: updateManyByQuery as UpdateManyByQuery
         });
     };
 
@@ -326,7 +326,7 @@ export function indexedDbWrapper(
         });
     }
 
-    function _updateOneQuery<T>(
+    function _updateManyByQuery<T>(
         db: IDBDatabase,
         storeName: string,
         element: (item: T) => DeepPartial<T>,
@@ -337,6 +337,7 @@ export function indexedDbWrapper(
             const store = transaction.objectStore(storeName);
             const cursor = store.openCursor();
             cursor.onsuccess = (event) => {
+                const idbValidKeys: IDBValidKey[] = [];
                 const cursor = (event.target as IDBRequest).result as IDBCursorWithValue | null;
                 if (cursor) {
                     const item = cursor.value as T;
@@ -345,17 +346,14 @@ export function indexedDbWrapper(
                         const newItem = deepMerge(structuredClone(item), updatedItem);
                         const request = cursor.update(newItem);
                         request.onsuccess = () => {
-                            resolve(request.result);
+                            idbValidKeys.push(request.result);
+                            cursor.continue();
                         }
-                        request.onerror = () => {
-                            reject(request.error);
-                        }
-
-                        return;
+                    } else {
+                        cursor.continue();
                     }
-                    cursor.continue();
                 } else {
-                    resolve(null);
+                    resolve(idbValidKeys);
                 }
             }
             cursor.onerror = () => reject(cursor.error);
